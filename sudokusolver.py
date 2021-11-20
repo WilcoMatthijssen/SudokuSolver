@@ -3,6 +3,7 @@ import time
 def sudoku_solve(board):
     #Find first empty spot and return if no empty spaces exist
     try:
+        # convert 2d list to 1d, get index of 0 and convert index back to 2d
         x, y = divmod(sum(board, []).index(0), 9)
     except ValueError:
         return board
@@ -10,7 +11,13 @@ def sudoku_solve(board):
     # Find possible values for empty spot
     row_nums = set(board[x])
     col_nums = set([row[y] for row in board])
-    block_nums = set(sum([row[y - y % 3: y - y % 3 + 3] for row in board[x - x % 3: x - x % 3 + 3]], []))
+
+    col_begin = y - y % 3
+    col_end = row_begin + 3
+    row_begin = x - x % 3 
+    row_end = column_begin + 3
+    block_nums = set(sum([row[col_begin: col_end] for row in board[row_begin: row_end]], []))
+
     options = set(range(1, 10)) - (row_nums | col_nums | block_nums)
 
     # Solve further on board with value applied
