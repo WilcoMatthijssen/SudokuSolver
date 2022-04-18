@@ -10,13 +10,15 @@ def sudoku_solve(board):
 
     # Find possible values for empty spot
     row_nums = set(board[x])
-    col_nums = set([row[y] for row in board])
+    col_nums = {row[y] for row in board}
 
-    col_begin = y - y % 3
-    col_end = row_begin + 3
-    row_begin = x - x % 3 
+    column_begin = y - y % 3
+    row_begin = x - x % 3
+    column_end = row_begin + 3
     row_end = column_begin + 3
-    block_nums = set(sum([row[col_begin: col_end] for row in board[row_begin: row_end]], []))
+
+    block_nums = set(sum((row[column_begin:column_end] for row in board[row_begin:row_end]), []))
+
 
     options = set(range(1, 10)) - (row_nums | col_nums | block_nums)
 
